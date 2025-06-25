@@ -12,13 +12,13 @@ def main():
         get_packet_for_me(sock, iface)
 
 
-def get_packet_for_me(sock, iface):
+def get_packet_for_me(socket, iface):
     my_macs = (remove_colons(iface.mac), BROADCAST_MAC)
 
     while True:
         recv: Tuple = (None, None, None)
         while not any(recv):
-            recv = sock.recv_raw()  # Receive data
+            recv = socket.recv_raw()  # Receive data
 
         preamble, dst_mac = unpack("6s6s", recv[1][:12])
         if dst_mac.hex() in my_macs:
